@@ -17,9 +17,9 @@ Ngoài phạm vi bản này: hiển thị trạng thái Git (cột Git, branch, 
 
 ## P0 — Khung project
 
-- [ ] `project.yml` cho XcodeGen: target app `Filebox` (macOS 14, bundle id `dev.local.filebox`, không sandbox), target test `FileboxTests`.
-- [ ] App mở một cửa sổ trống với bố cục đúng vùng (toolbar, sidebar, vùng duyệt, preview, status bar) bằng dữ liệu giả.
-- [ ] Build và test chạy được bằng lệnh trong `CLAUDE.md`.
+- [x] `project.yml` cho XcodeGen: target app `Filebox` (macOS 14, bundle id `dev.local.filebox`, không sandbox), target test `FileboxTests`.
+- [x] App mở một cửa sổ trống với bố cục đúng vùng (toolbar, sidebar, vùng duyệt, preview, status bar) bằng dữ liệu giả.
+- [x] Build và test chạy được bằng lệnh trong `CLAUDE.md`.
 
 ## P1 — Duyệt thư mục (một panel)
 

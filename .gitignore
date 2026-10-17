@@ -1,1 +1,4 @@
+.build/
+Filebox.xcodeproj/
 .DS_Store
+xcuserdata/

@@ -1,0 +1,57 @@
+name: Filebox
+options:
+  bundleIdPrefix: dev.local
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+targets:
+  Filebox:
+    type: application
+    platform: macOS
+    sources:
+      - Filebox
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.local.filebox
+        PRODUCT_NAME: Filebox
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Filebox
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        ENABLE_APP_SANDBOX: NO
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: ""
+  FileboxTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - FileboxTests
+    dependencies:
+      - target: Filebox
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.local.filebox.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        BUNDLE_LOADER: $(TEST_HOST)
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Filebox.app/Contents/MacOS/Filebox
+schemes:
+  Filebox:
+    build:
+      targets:
+        Filebox: all
+        FileboxTests: [test]
+    test:
+      targets:
+        - FileboxTests
