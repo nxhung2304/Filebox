@@ -41,7 +41,7 @@ Mockup tham khảo: `specs/design/project/Main.dc.html` (canvas: https://claude.
 | Tab bar | cao 34 px |
 | Hàng trong bảng | 28 px (Gọn 24, Rộng 32) |
 | Header bảng | 26 px |
-| Panel xem trước | rộng 320 px (kéo được 260–480) |
+| Panel xem trước | rộng 260 px (kéo được 220–480) |
 | Status bar | cao 24 px |
 | Padding ngang trong bảng | 16 px |
 | Bo góc nút / hàng sidebar | 6 px; ô tìm kiếm 7 px; khung code 8 px |
@@ -57,7 +57,7 @@ Dùng màu ngữ nghĩa của hệ thống; các mã hex là giá trị light mo
 | Nền vùng duyệt | `controlBackgroundColor` | #FFFFFF |
 | Hàng xen kẽ | `alternatingContentBackgroundColors` | #F6F6F8 |
 | Nền sidebar, toolbar, status bar | vật liệu `.sidebar` / `windowBackgroundColor` | #F4F4F6 |
-| Nền panel xem trước | `underPageBackgroundColor` | #FAFAFB |
+| Nền panel xem trước | nền mặc định của inspector (`windowBackgroundColor`) | #F4F4F6 |
 | Chữ chính | `labelColor` | #1D1D1F |
 | Chữ phụ (ngày, kích thước, tiêu đề mục) | `secondaryLabelColor` | #6B6B70 |
 | Đường kẻ | `separatorColor` | #DCDCE0 |
@@ -83,7 +83,7 @@ Dùng màu ngữ nghĩa của hệ thống; các mã hex là giá trị light mo
 ## Thành phần
 
 ### Toolbar
-Thứ tự từ trái sang: nút back/forward (forward mờ khi không dùng được) · breadcrumb (đoạn cuối đậm, các đoạn trước màu phụ, phân cách `›`) · nhóm nút kiểu xem (List / Columns / Icons, dạng segmented) · nút chia đôi · ô tìm kiếm (rộng 260 px, icon kính lúp, placeholder "Search in <tên thư mục>", gợi ý `⌘K` ở cuối). Toolbar xuống dòng thay vì cắt khi cửa sổ hẹp.
+Thứ tự từ trái sang: nút back/forward (forward mờ khi không dùng được) · tiêu đề cửa sổ là tên thư mục hiện tại (tiêu đề native như Finder), bấm vào mở menu các thư mục cha để nhảy tới · bên phải: nhóm nút kiểu xem (List / Columns / Icons, dạng segmented) · nút chia đôi · nút ẩn/hiện xem trước (⌘⇧P) · ô tìm kiếm native của hệ thống (`.searchable`, placeholder "Search"). Panel xem trước là inspector: cột riêng cao hết cửa sổ, toolbar chỉ nằm trên vùng duyệt.
 
 ### Sidebar
 - Mục "Favorites": tiêu đề mục, rồi các mục không nhóm (Recents dùng SF Symbol `clock`, thư mục dùng `folder`), rồi các nhóm, cuối cùng là nút "+ New Group" (màu phụ, cỡ 12).
@@ -94,7 +94,7 @@ Thứ tự từ trái sang: nút back/forward (forward mờ khi không dùng đ�
 - Mục "Locations": ổ đĩa (`internaldrive`, kèm "184 GB available" màu phụ bên phải), iCloud Drive (`icloud`), ổ ngoài kèm nút eject khi rê chuột.
 
 ### Thanh tab
-Tab rộng tối đa 200 px, co lại khi nhiều tab. Tab active: nền trắng (nền vùng duyệt), chữ semibold. Tab khác: nền như tab bar (#ECECEF), chữ màu phụ. Nút đóng `×` hiện khi rê chuột. Nút `+` ở cuối. Panel không focus: tab active dùng chữ thường thay vì semibold. Ở chế độ hai panel, tab active của panel đang focus có thêm vạch màu nhấn 2 px ở cạnh trên.
+Chỉ hiện khi panel có từ 2 tab trở lên. Tab rộng tối đa 200 px, co lại khi nhiều tab. Tab active: nền trắng (nền vùng duyệt), chữ semibold. Tab khác: nền như tab bar (#ECECEF), chữ màu phụ. Nút đóng `×` hiện khi rê chuột. Nút `+` ở cuối. Panel không focus: tab active dùng chữ thường thay vì semibold. Ở chế độ hai panel, tab active của panel đang focus có thêm vạch màu nhấn 2 px ở cạnh trên.
 
 ### Bảng file
 - Cột: Tên (3 phần) · Ngày sửa (1.6) · Kích thước (1, căn phải) · Loại (1). Cột kéo được độ rộng, thứ tự cột cố định.
@@ -113,10 +113,10 @@ Màu cú pháp (light / dark): từ khoá #A0279E / #FF7AB2, kiểu và tên typ
 
 Khi không có bản xem trước: khung viền nét đứt, chữ giữa màu phụ, ví dụ "Folder · 8 items" hoặc "Press Space to Quick Look".
 
-Nút: "Open in Editor" là nút chính (nền màu nhấn, chữ trắng); "Copy Path", "Open in Terminal" là nút phụ (nền trắng, viền); nút agent dạng split: icon `>_` + tên agent mặc định + `▾` mở menu chọn agent.
+Nút cỡ thường, một hàng (xuống dòng khi hẹp): "Open in Editor" là nút chính (nền màu nhấn, chữ trắng); "Copy Path", "Open in Terminal" là nút chỉ có icon kèm tooltip; nút agent dạng split: icon `>_` + tên agent mặc định + `▾` mở menu chọn agent.
 
 ### Status bar
-Trái sang phải, cách nhau 18 px: "12 items, 1 selected" · "Hidden files: shown (⌘⇧.)" · đẩy sang phải: dung lượng trống. Khi đang có thao tác file: thay phần giữa bằng "Copying 3/12 · 45 MB of 120 MB", thanh tiến trình mảnh 120 px và nút huỷ. Ở chế độ hai panel, phần giữa hiện gợi ý "F5 Copy to right pane · F6 Move to right pane" (theo hướng panel kia). Khi đang tìm kiếm: "5 results in “filebox” and subfolders, 1 selected", kèm "Skipping .gitignore patterns" nếu đang bỏ qua mẫu `.gitignore`.
+Trái sang phải, cách nhau 18 px: "12 items, 1 selected" · "Hidden files: shown" (bấm để bật/tắt; tooltip ghi phím tắt ⌘⇧.) · đẩy sang phải: dung lượng trống. Khi đang có thao tác file: thay phần giữa bằng "Copying 3/12 · 45 MB of 120 MB", thanh tiến trình mảnh 120 px và nút huỷ. Ở chế độ hai panel, phần giữa hiện gợi ý "F5 Copy to right pane · F6 Move to right pane" (theo hướng panel kia). Khi đang tìm kiếm: "5 results in “filebox” and subfolders, 1 selected", kèm "Skipping .gitignore patterns" nếu đang bỏ qua mẫu `.gitignore`.
 
 ### Tìm kiếm
 Khi ô tìm kiếm có chữ: dưới toolbar hiện một dải cao 32 px với chip phạm vi ("This Folder" / "This Mac"), công tắc "Include Subfolders", ô "Contents" (chỉ hiện khi có `rg`), chip loại ("Any Kind" / Folders / Images / Documents / Code) và chip thời gian ("Any Time" / Today / Last 7 Days / Last 30 Days); mỗi nhóm chip chọn một, "Any …" là bỏ lọc. Ô tìm kiếm đang có chữ: viền màu nhấn 2 px và nút xoá. Bảng hiển thị kết quả, thêm cột "Location" (đường dẫn tương đối, màu phụ). Phần khớp trong tên được tô đậm.
@@ -132,7 +132,7 @@ Cửa sổ 720×560, một trang, ba nhóm có tiêu đề mục: **General** (O
 
 ## Trạng thái và phản hồi
 
-- Đang tải thư mục lâu hơn 150 ms: spinner nhỏ ở breadcrumb, không xoá danh sách cũ cho tới khi có dữ liệu mới.
+- Đang tải thư mục lâu hơn 150 ms: spinner nhỏ cạnh nút back/forward trên toolbar, không xoá danh sách cũ cho tới khi có dữ liệu mới.
 - Lỗi quyền: thay bảng bằng icon khoá, thông báo "You don't have permission to access this folder", dòng hướng dẫn màu phụ "Give Filebox Full Disk Access in System Settings, then reopen this folder." và nút chính "Open Full Disk Access Settings".
 - Thư mục Yêu thích không còn tồn tại: hàng mờ, icon `exclamationmark.triangle` màu cam.
 - Hoàn tác xong: thông báo nhỏ trong status bar 3 giây ("Restored 2 items").

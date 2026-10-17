@@ -2,13 +2,11 @@ import SwiftUI
 
 struct MainToolbar: ToolbarContent {
     var body: some ToolbarContent {
-        ToolbarItemGroup(placement: .navigation) {
-            Button("Back", systemImage: "chevron.left") {}
-            Button("Forward", systemImage: "chevron.right") {}
-                .disabled(true)
+        ToolbarItem(placement: .navigation) {
+            NavigationButtons()
         }
         ToolbarItem(placement: .navigation) {
-            Breadcrumb()
+            LoadingIndicator()
         }
         ToolbarItem(placement: .primaryAction) {
             ViewStylePicker()
@@ -17,7 +15,45 @@ struct MainToolbar: ToolbarContent {
             Button("Toggle Dual Pane", systemImage: "rectangle.split.2x1") {}
         }
         ToolbarItem(placement: .primaryAction) {
-            ToolbarSearchField()
+            PreviewToggleButton()
+        }
+    }
+}
+
+private struct NavigationButtons: View {
+    @Environment(AppState.self) private var appState
+
+    var body: some View {
+        HStack(spacing: 2) {
+            Button("Back", systemImage: "chevron.left") { appState.goBack() }
+                .disabled(!appState.focusedTab.canGoBack)
+            Button("Forward", systemImage: "chevron.right") { appState.goForward() }
+                .disabled(!appState.focusedTab.canGoForward)
+        }
+        .labelStyle(.iconOnly)
+    }
+}
+
+private struct PreviewToggleButton: View {
+    @Environment(AppState.self) private var appState
+
+    var body: some View {
+        Button(appState.isPreviewVisible ? "Hide Preview" : "Show Preview", systemImage: "sidebar.trailing") {
+            appState.isPreviewVisible.toggle()
+        }
+        .keyboardShortcut("p", modifiers: [.command, .shift])
+        .help(appState.isPreviewVisible ? "Hide Preview (⌘⇧P)" : "Show Preview (⌘⇧P)")
+    }
+}
+
+private struct LoadingIndicator: View {
+    @Environment(AppState.self) private var appState
+
+    var body: some View {
+        if appState.focusedTab.isShowingLoadingIndicator {
+            ProgressView()
+                .controlSize(.small)
+                .accessibilityLabel("Loading")
         }
     }
 }
@@ -52,33 +88,5 @@ private struct ViewStylePicker: View {
         }
         .pickerStyle(.segmented)
         .accessibilityLabel("View Style")
-    }
-}
-
-private struct ToolbarSearchField: View {
-    static let width: CGFloat = 260
-    static let height: CGFloat = 28
-    static let cornerRadius: CGFloat = 7
-    static let horizontalPadding: CGFloat = 8
-
-    @Environment(AppState.self) private var appState
-    @State private var query = ""
-
-    var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
-                .accessibilityHidden(true)
-            TextField("Search in \(appState.currentDirectoryURL.lastPathComponent)", text: $query)
-                .textFieldStyle(.plain)
-                .accessibilityLabel("Search")
-            Text("⌘K")
-                .font(.system(size: 11, design: .monospaced))
-                .foregroundStyle(.secondary)
-        }
-        .padding(.horizontal, Self.horizontalPadding)
-        .frame(width: Self.width, height: Self.height)
-        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: Self.cornerRadius))
-        .overlay(RoundedRectangle(cornerRadius: Self.cornerRadius).strokeBorder(Color(nsColor: .separatorColor)))
     }
 }

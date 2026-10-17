@@ -23,7 +23,6 @@ struct SidebarView: View {
             .padding(.horizontal, Self.horizontalPadding)
             .padding(.vertical, Self.verticalPadding)
         }
-        .background(Color(nsColor: .windowBackgroundColor))
     }
 }
 

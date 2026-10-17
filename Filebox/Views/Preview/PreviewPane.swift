@@ -10,34 +10,44 @@ struct PreviewPane: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Self.sectionSpacing) {
             if let item = appState.selectedItem {
-                header(for: item)
-                CodePreview(text: SampleData.previewCode)
-                InfoList(item: item)
-                actionButtons
+                header(
+                    icon: FileIcon.image(for: item),
+                    title: item.name,
+                    subtitle: item.size == nil ? item.kind : "\(item.kind) · \(DisplayFormatter.sizeText(for: item.size))"
+                )
+                InfoList(url: item.url, dateModified: item.dateModified)
             } else {
-                Text("No Selection")
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                header(
+                    icon: FileIcon.folderImage,
+                    title: appState.focusedTab.title,
+                    subtitle: currentFolderSummary
+                )
+                InfoList(url: appState.currentDirectoryURL, dateModified: nil)
             }
+            actionButtons
             Spacer(minLength: 0)
         }
         .padding(Self.padding)
-        .frame(maxHeight: .infinity, alignment: .top)
-        .background(Color(nsColor: .underPageBackgroundColor))
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
-    private func header(for item: FileItem) -> some View {
+    private var currentFolderSummary: String {
+        let itemCount = appState.visibleItems(in: appState.focusedTab).count
+        return "Folder · \(itemCount) \(itemCount == 1 ? "item" : "items")"
+    }
+
+    private func header(icon: NSImage, title: String, subtitle: String) -> some View {
         HStack(spacing: 10) {
-            Image(nsImage: FileIcon.image(for: item))
+            Image(nsImage: icon)
                 .resizable()
                 .frame(width: Self.iconSize, height: Self.iconSize)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(item.name)
+                Text(title)
                     .font(.system(size: 14, weight: .semibold))
                     .lineLimit(1)
                     .truncationMode(.middle)
-                Text("\(item.kind) · \(DisplayFormatter.sizeText(for: item.size))")
+                Text(subtitle)
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
             }
@@ -46,27 +56,21 @@ struct PreviewPane: View {
 
     private var actionButtons: some View {
         ViewThatFits(in: .horizontal) {
-            HStack(spacing: 8) { buttons }
+            HStack(spacing: 6) {
+                openInEditorButton
+                copyPathButton
+                openInTerminalButton
+                agentButton
+            }
             VStack(alignment: .leading, spacing: 8) {
-                HStack(spacing: 8) {
+                HStack(spacing: 6) {
                     openInEditorButton
                     copyPathButton
-                }
-                HStack(spacing: 8) {
                     openInTerminalButton
-                    agentButton
                 }
+                agentButton
             }
         }
-        .controlSize(.large)
-    }
-
-    @ViewBuilder
-    private var buttons: some View {
-        openInEditorButton
-        copyPathButton
-        openInTerminalButton
-        agentButton
     }
 
     private var openInEditorButton: some View {
@@ -75,11 +79,15 @@ struct PreviewPane: View {
     }
 
     private var copyPathButton: some View {
-        Button("Copy Path") {}
+        Button("Copy Path", systemImage: "doc.on.doc") {}
+            .labelStyle(.iconOnly)
+            .help("Copy Path (⌘⌥C)")
     }
 
     private var openInTerminalButton: some View {
-        Button("Open in Terminal") {}
+        Button("Open in Terminal", systemImage: "terminal") {}
+            .labelStyle(.iconOnly)
+            .help("Open in Terminal (⌘⌥T)")
     }
 
     private var agentButton: some View {
@@ -92,6 +100,7 @@ struct PreviewPane: View {
         } primaryAction: {
         }
         .fixedSize()
+        .help("Open Claude Code Here (⌘⇧A)")
         .accessibilityLabel("Open Claude Code Here")
     }
 }

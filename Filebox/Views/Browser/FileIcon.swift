@@ -2,6 +2,10 @@ import AppKit
 import UniformTypeIdentifiers
 
 enum FileIcon {
+    static var folderImage: NSImage {
+        NSWorkspace.shared.icon(for: .folder)
+    }
+
     static func image(for item: FileItem) -> NSImage {
         let contentType = item.isDirectory
             ? UTType.folder

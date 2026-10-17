@@ -16,6 +16,26 @@ final class DisplayFormatterTests: XCTestCase {
         XCTAssertEqual(DisplayFormatter.sizeText(for: nil), "—")
     }
 
+    func testSizeUnderOneKilobyteShowsBytes() {
+        XCTAssertEqual(DisplayFormatter.sizeText(for: 96), "96 bytes")
+    }
+
+    func testSizeShowsOneDecimalBelowOneHundredUnits() {
+        XCTAssertEqual(DisplayFormatter.sizeText(for: 3_100), "3.1 KB")
+    }
+
+    func testLargeSizeShowsWholeUnits() {
+        XCTAssertEqual(DisplayFormatter.sizeText(for: 184_000_000_000), "184 GB")
+    }
+
+    func testSizeRoundingUpToOneHundredDropsDecimal() {
+        XCTAssertEqual(DisplayFormatter.sizeText(for: 99_960), "100 KB")
+    }
+
+    func testSizeRoundingUpToOneThousandMovesToNextUnit() {
+        XCTAssertEqual(DisplayFormatter.sizeText(for: 999_600), "1.0 MB")
+    }
+
     func testDateTodayUsesTwentyFourHourTime() {
         let now = date(2026, 10, 17, 22, 0)
         XCTAssertEqual(DisplayFormatter.dateText(for: date(2026, 10, 17, 9, 40), now: now, calendar: calendar), "Today 09:40")

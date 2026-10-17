@@ -23,15 +23,15 @@ Ngoài phạm vi bản này: hiển thị trạng thái Git (cột Git, branch, 
 
 ## P1 — Duyệt thư mục (một panel)
 
-- [ ] `FileSystemService` liệt kê thư mục bất đồng bộ, trả về `FileItem` (url, tên, là thư mục, kích thước, ngày sửa, loại, ẩn hay không, là symlink/alias).
-- [ ] Bảng file dạng danh sách với các cột: Name (icon + tên), Date Modified, Size, Kind. Bấm tiêu đề cột để sắp xếp; thư mục luôn đứng trước file.
-- [ ] Mở thư mục bằng Enter hoặc double-click; mở file bằng app mặc định (`NSWorkspace.open`).
-- [ ] Back/forward (⌘[ và ⌘]), lên thư mục cha (⌘↑).
-- [ ] Breadcrumb trong toolbar, mỗi đoạn bấm được.
-- [ ] Ô nhập đường dẫn (⌘⇧G) có autocomplete, hỗ trợ `~`.
-- [ ] Bật/tắt file ẩn (⌘⇧.). File ẩn hiển thị màu mờ.
-- [ ] Gõ chữ khi bảng đang focus thì nhảy tới file có tên bắt đầu bằng chuỗi đó.
-- [ ] `DirectoryWatcher` (FSEvents) cập nhật danh sách khi file thay đổi từ bên ngoài, giữ nguyên lựa chọn và vị trí cuộn.
+- [x] `FileSystemService` liệt kê thư mục bất đồng bộ, trả về `FileItem` (url, tên, là thư mục, kích thước, ngày sửa, loại, ẩn hay không, là symlink/alias).
+- [x] Bảng file dạng danh sách với các cột: Name (icon + tên), Date Modified, Size, Kind. Bấm tiêu đề cột để sắp xếp; thư mục luôn đứng trước file.
+- [x] Mở thư mục bằng Enter hoặc double-click; mở file bằng app mặc định (`NSWorkspace.open`).
+- [x] Back/forward (⌘[ và ⌘]), lên thư mục cha (⌘↑).
+- [x] Breadcrumb trong toolbar, mỗi đoạn bấm được.
+- [x] Ô nhập đường dẫn (⌘⇧G) có autocomplete, hỗ trợ `~`.
+- [x] Bật/tắt file ẩn (⌘⇧.). File ẩn hiển thị màu mờ.
+- [x] Gõ chữ khi bảng đang focus thì nhảy tới file có tên bắt đầu bằng chuỗi đó.
+- [x] `DirectoryWatcher` (FSEvents) cập nhật danh sách khi file thay đổi từ bên ngoài, giữ nguyên lựa chọn và vị trí cuộn.
 - [ ] Thư mục 20.000 file mở dưới 1 giây, cuộn mượt.
 
 ## P2 — Tab và chia đôi

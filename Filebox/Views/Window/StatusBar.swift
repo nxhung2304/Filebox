@@ -10,9 +10,13 @@ struct StatusBar: View {
     var body: some View {
         HStack(spacing: Self.itemSpacing) {
             Text(selectionSummary)
-            Text("Hidden files: \(appState.showsHiddenFiles ? "shown" : "hidden") (⌘⇧.)")
+            Button("Hidden files: \(appState.showsHiddenFiles ? "shown" : "hidden")") {
+                appState.toggleHiddenFiles()
+            }
+            .buttonStyle(.plain)
+            .help(appState.showsHiddenFiles ? "Hide Hidden Files (⌘⇧.)" : "Show Hidden Files (⌘⇧.)")
             Spacer()
-            if let capacity = appState.bootVolumeAvailableCapacity {
+            if let capacity = appState.currentVolumeAvailableCapacity {
                 Text("\(DisplayFormatter.sizeText(for: capacity)) available")
             }
         }
@@ -24,9 +28,9 @@ struct StatusBar: View {
     }
 
     private var selectionSummary: String {
-        let tab = appState.focusedPanel.activeTab
-        let itemCount = tab.items.count
+        let tab = appState.focusedTab
+        let itemCount = appState.visibleItems(in: tab).count
         let itemWord = itemCount == 1 ? "item" : "items"
-        return "\(itemCount) \(itemWord), \(tab.selectedItemIDs.count) selected"
+        return "\(itemCount) \(itemWord), \(appState.selectedItems(inPanelAt: appState.focusedPanelIndex).count) selected"
     }
 }

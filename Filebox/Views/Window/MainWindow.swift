@@ -10,36 +10,43 @@ struct MainWindow: View {
     static let sidebarIdealWidth: CGFloat = 220
     static let sidebarMaximumWidth: CGFloat = 320
 
-    static let previewMinimumWidth: CGFloat = 260
-    static let previewIdealWidth: CGFloat = 320
+    static let previewMinimumWidth: CGFloat = 220
+    static let previewIdealWidth: CGFloat = 260
     static let previewMaximumWidth: CGFloat = 480
 
     @Environment(AppState.self) private var appState
+    @State private var searchQuery = ""
 
     var body: some View {
-        VStack(spacing: 0) {
-            HSplitView {
-                SidebarView()
-                    .frame(
-                        minWidth: Self.sidebarMinimumWidth,
-                        idealWidth: Self.sidebarIdealWidth,
-                        maxWidth: Self.sidebarMaximumWidth
-                    )
+        NavigationSplitView {
+            SidebarView()
+                .navigationSplitViewColumnWidth(
+                    min: Self.sidebarMinimumWidth,
+                    ideal: Self.sidebarIdealWidth,
+                    max: Self.sidebarMaximumWidth
+                )
+        } detail: {
+            VStack(spacing: 0) {
                 PanelView(panelIndex: 0)
-                    .frame(minWidth: Self.minimumWidth - Self.sidebarMinimumWidth - Self.previewMinimumWidth)
-                if appState.isPreviewVisible {
-                    PreviewPane()
-                        .frame(
-                            minWidth: Self.previewMinimumWidth,
-                            idealWidth: Self.previewIdealWidth,
-                            maxWidth: Self.previewMaximumWidth
-                        )
-                }
+                Divider()
+                StatusBar()
             }
-            Divider()
-            StatusBar()
+            .inspector(isPresented: Bindable(appState).isPreviewVisible) {
+                PreviewPane()
+                    .inspectorColumnWidth(
+                        min: Self.previewMinimumWidth,
+                        ideal: Self.previewIdealWidth,
+                        max: Self.previewMaximumWidth
+                    )
+            }
+            .toolbar { MainToolbar() }
+            .searchable(text: $searchQuery, placement: .toolbar, prompt: "Search")
+            .navigationTitle(appState.focusedTab.title)
+            .toolbarTitleMenu { Breadcrumb() }
         }
         .frame(minWidth: Self.minimumWidth, minHeight: Self.minimumHeight)
-        .toolbar { MainToolbar() }
+        .sheet(isPresented: Bindable(appState).isShowingGoToFolder) {
+            GoToFolderSheet()
+        }
     }
 }

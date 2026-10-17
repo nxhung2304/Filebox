@@ -3,13 +3,16 @@ import SwiftUI
 struct InfoList: View {
     static let labelWidth: CGFloat = 84
 
-    let item: FileItem
+    let url: URL
+    let dateModified: Date?
 
     var body: some View {
         Grid(alignment: .topLeading, horizontalSpacing: 8, verticalSpacing: 8) {
-            GridRow {
-                label("Modified")
-                Text(DisplayFormatter.dateText(for: item.dateModified))
+            if let dateModified {
+                GridRow {
+                    label("Modified")
+                    Text(DisplayFormatter.dateText(for: dateModified))
+                }
             }
             GridRow {
                 label("Path")
@@ -29,6 +32,6 @@ struct InfoList: View {
     }
 
     private var abbreviatedPath: String {
-        (item.url.path(percentEncoded: false) as NSString).abbreviatingWithTildeInPath
+        (url.path(percentEncoded: false) as NSString).abbreviatingWithTildeInPath
     }
 }
