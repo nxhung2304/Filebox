@@ -10,7 +10,7 @@ final class AppState {
     var panels: [PanelState]
     var focusedPanelIndex = 0
     var isPreviewVisible = true
-    var showsHiddenFiles = true
+    var showsHiddenFiles = false
     var isShowingGoToFolder = false
     var currentVolumeAvailableCapacity: Int64?
     var ungroupedFavorites: [FavoriteItem]

@@ -33,3 +33,5 @@
 - Panel xem trước là inspector (`.inspector`): cột riêng cao hết cửa sổ, nền mặc định của inspector, toolbar chỉ nằm trên vùng duyệt; nút ẩn/hiện ở toolbar (⌘⇧P).
 - Ô tìm kiếm dùng `.searchable` native; bỏ gợi ý ⌘K trong ô.
 - Nút trong preview: cỡ thường; Copy Path và Open in Terminal chỉ có icon + tooltip.
+- Nút "Open in Editor": khi cửa sổ không active chuyển sang kiểu `.bordered`, vì `.borderedProminent` trên macOS 26 ở light mode vẽ chữ trắng trên nền gần trắng.
+- Mặc định ẩn file ẩn khi mở app (giống Finder); tuỳ chọn trong Settings ở P8.

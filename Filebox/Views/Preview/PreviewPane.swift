@@ -6,6 +6,7 @@ struct PreviewPane: View {
     static let iconSize: CGFloat = 32
 
     @Environment(AppState.self) private var appState
+    @Environment(\.controlActiveState) private var controlActiveState
 
     var body: some View {
         VStack(alignment: .leading, spacing: Self.sectionSpacing) {
@@ -73,9 +74,15 @@ struct PreviewPane: View {
         }
     }
 
+    @ViewBuilder
     private var openInEditorButton: some View {
-        Button("Open in Editor") {}
-            .buttonStyle(.borderedProminent)
+        if controlActiveState == .inactive {
+            Button("Open in Editor") {}
+                .buttonStyle(.bordered)
+        } else {
+            Button("Open in Editor") {}
+                .buttonStyle(.borderedProminent)
+        }
     }
 
     private var copyPathButton: some View {
