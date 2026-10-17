@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Search results</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#D9D9DE}
+a{color:#0B63CE}a:hover{color:#084C9E}
+button{font:inherit;color:inherit;margin:0}
+.side-row{display:flex;align-items:center;gap:8px;height:26px;padding:0 8px;border-radius:6px;font-size:13px;color:#1D1D1F}
+.side-icon{color:#0B63CE;display:flex}
+.tool-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;border-radius:6px;color:#3A3A3E;padding:0}
+.chip{height:22px;padding:0 10px;border-radius:11px;border:1px solid #DCDCE0;background:#FFFFFF;font-size:12px;color:#1D1D1F;display:inline-flex;align-items:center}
+.chip-on{background:#0B63CE;border-color:#0B63CE;color:#FFFFFF;font-weight:600}
+.sep{width:1px;height:16px;background:#DCDCE0}
+.row{display:grid;grid-template-columns:2.6fr 2fr 1.4fr 0.8fr 0.9fr;column-gap:12px;align-items:center;height:28px;padding:0 16px;font-size:13px;color:#1D1D1F}
+.row:nth-child(even){background:#F6F6F8}
+.head{height:26px;font-size:11px;font-weight:600;color:#6B6B70;background:#FFFFFF !important;border-bottom:1px solid #DCDCE0}
+.cell-name{display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell-sub{color:#6B6B70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell-size{color:#6B6B70;text-align:right;font-variant-numeric:tabular-nums}
+.icon-folder{color:#2F7BD8;display:flex;flex:none}
+.icon-file{color:#8A8A90;display:flex;flex:none}
+.m{font-weight:700}
+.row-selected{background:#0B63CE !important;color:#FFFFFF}
+.row-selected .cell-sub,.row-selected .cell-size,.row-selected .icon-file{color:#FFFFFF}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; color: #1D1D1F; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; font-size: 13px; overflow: hidden; border-radius: 10px; border: 1px solid #C8C8CE">
+
+<header style="height: 48px; flex: none; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: #F4F4F6; border-bottom: 1px solid #DCDCE0">
+<div style="display: flex; gap: 8px; width: 60px" aria-hidden="true">
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #FF5F57"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #FEBC2E"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #28C840"></span>
+</div>
+<div style="display: flex; gap: 2px; margin-left: 96px">
+<button class="tool-btn" aria-label="Back"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5"></path></svg></button>
+<button class="tool-btn" aria-label="Forward" disabled="disabled" style="color: #B8B8BE"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"></path></svg></button>
+</div>
+<nav aria-label="Path" style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6B6B70; flex: 1; min-width: 0">
+<span>~</span><span aria-hidden="true">›</span><span>Projects</span><span aria-hidden="true">›</span>
+<span style="color: #1D1D1F; font-weight: 600">filebox</span>
+</nav>
+<div role="group" aria-label="View style" style="display: flex; background: #E4E4E8; border-radius: 6px; padding: 2px; gap: 2px">
+<button class="tool-btn" aria-label="List" aria-pressed="true" style="width: 30px; height: 24px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.12)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 4.5h10M3 8h10M3 11.5h10"></path></svg></button>
+<button class="tool-btn" aria-label="Columns" style="width: 30px; height: 24px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"></rect><path d="M6 2.5v11M10.5 2.5v11"></path></svg></button>
+<button class="tool-btn" aria-label="Icons" style="width: 30px; height: 24px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"></rect><rect x="9" y="2" width="5" height="5" rx="1"></rect><rect x="2" y="9" width="5" height="5" rx="1"></rect><rect x="9" y="9" width="5" height="5" rx="1"></rect></svg></button>
+</div>
+<button class="tool-btn" aria-label="Toggle dual pane"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"></rect><path d="M8 2.5v11"></path></svg></button>
+<label style="width: 260px; height: 28px; box-sizing: border-box; display: flex; align-items: center; gap: 6px; padding: 0 8px; background: #FFFFFF; border: 2px solid #0B63CE; border-radius: 7px; color: #6B6B70">
+<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg>
+<input type="search" aria-label="Search" value="fbview" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 13px; color: #1D1D1F">
+<button aria-label="Clear search" style="width: 16px; height: 16px; border: 0; padding: 0; border-radius: 50%; background: #B8B8BE; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="8" height="8" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
+</label>
+</header>
+
+<div role="toolbar" aria-label="Search options" style="height: 32px; flex: none; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: #FAFAFB; border-bottom: 1px solid #DCDCE0">
+<button class="chip chip-on" aria-pressed="true">This Folder</button>
+<button class="chip" aria-pressed="false">This Mac</button>
+<label style="display: flex; align-items: center; gap: 6px; font-size: 12px; margin-left: 4px"><input type="checkbox" checked="checked" style="margin: 0">Include Subfolders</label>
+<label style="display: flex; align-items: center; gap: 6px; font-size: 12px"><input type="checkbox" style="margin: 0">Contents</label>
+<span class="sep" aria-hidden="true"></span>
+<button class="chip chip-on" aria-pressed="true">Any Kind</button>
+<button class="chip">Folders</button>
+<button class="chip">Images</button>
+<button class="chip">Documents</button>
+<button class="chip">Code</button>
+<span class="sep" aria-hidden="true"></span>
+<button class="chip chip-on" aria-pressed="true">Any Time</button>
+<button class="chip">Today</button>
+<button class="chip">Last 7 Days</button>
+<button class="chip">Last 30 Days</button>
+</div>
+
+<div style="flex: 1; min-height: 0; display: flex">
+<aside aria-label="Sidebar" style="width: 220px; flex: none; box-sizing: border-box; padding: 12px 10px; background: #F4F4F6; border-right: 1px solid #DCDCE0; display: flex; flex-direction: column; gap: 1px">
+<div style="font-size: 11px; font-weight: 600; color: #6B6B70; padding: 4px 8px 6px">Favorites</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"></circle><path d="M8 4.5V8l2.5 1.5"></path></svg></span>Recents</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Desktop</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Downloads</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Documents</div>
+</aside>
+
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+<div class="row head"><span>Name</span><span>Location</span><span>Date Modified</span><span style="text-align: right">Size</span><span>Kind</span></div>
+<div style="flex: 1; overflow: hidden">
+<div class="row row-selected"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span><span><span class="m">F</span>ile<span class="m">B</span>rowser<span class="m">View</span>.swift</span></span><span class="cell-sub">Sources</span><span class="cell-sub">Today 09:40</span><span class="cell-size">6.8 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span><span><span class="m">F</span>ile<span class="m">B</span>rowser<span class="m">View</span>Tests.swift</span></span><span class="cell-sub">Tests/Browser</span><span class="cell-sub">Yesterday 18:20</span><span class="cell-size">3.3 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span><span><span class="m">F</span>avorites<span class="m">B</span>ar<span class="m">View</span>.swift</span></span><span class="cell-sub">Sources/Views/Sidebar</span><span class="cell-sub">Oct 14</span><span class="cell-size">2.7 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span><span><span class="m">F</span>ile<span class="m">B</span>adge<span class="m">View</span>.swift</span></span><span class="cell-sub">Sources/Views/Browser</span><span class="cell-sub">Oct 12</span><span class="cell-size">1.1 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span><span><span class="m">f</span>ile<span class="m">b</span>ox-pre<span class="m">view</span>s</span></span><span class="cell-sub">specs/design</span><span class="cell-sub">Oct 9</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+</div>
+</main>
+</div>
+
+<footer style="height: 24px; flex: none; display: flex; align-items: center; gap: 18px; padding: 0 16px; background: #F4F4F6; border-top: 1px solid #DCDCE0; font-size: 11px; color: #6B6B70">
+<span>5 results in “filebox” and subfolders, 1 selected</span>
+<span>Skipping .gitignore patterns</span>
+<span style="margin-left: auto">184 GB available</span>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

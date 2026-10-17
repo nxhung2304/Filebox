@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#D9D9DE}
+a{color:#0B63CE}a:hover{color:#084C9E}
+button,select,input{font:inherit;color:inherit;margin:0}
+.group{background:#FFFFFF;border:1px solid #DCDCE0;border-radius:8px;overflow:hidden}
+.field{display:flex;align-items:center;gap:12px;min-height:36px;padding:0 12px;font-size:13px}
+.field + .field{border-top:1px solid #ECECEF}
+.field-label{flex:1;min-width:0}
+.sel{height:24px;padding:0 8px;border:1px solid #C8C8CE;border-radius:6px;background:#FFFFFF;font-size:13px;min-width:160px}
+.section{font-size:11px;font-weight:600;color:#6B6B70;padding:0 4px 6px}
+.mono{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:11.5px}
+.small-btn{height:24px;padding:0 10px;border:1px solid #C8C8CE;border-radius:6px;background:#FFFFFF;font-size:12px}
+</style>
+</helmet>
+<div style="width: 720px; height: 560px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F6; border: 1px solid #C8C8CE; border-radius: 10px; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; color: #1D1D1F">
+<div style="height: 36px; flex: none; display: flex; align-items: center; padding: 0 14px; position: relative">
+<div style="display: flex; gap: 8px" aria-hidden="true">
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #FF5F57"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #FEBC2E"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #28C840"></span>
+</div>
+<h1 style="position: absolute; left: 0; right: 0; margin: 0; text-align: center; font-size: 13px; font-weight: 600">Settings</h1>
+</div>
+
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 8px 24px 24px; display: flex; flex-direction: column; gap: 16px">
+<section>
+<div class="section">General</div>
+<div class="group">
+<div class="field"><span class="field-label">Open at launch</span><span class="mono" style="color: #6B6B70">~/Projects</span><button class="small-btn">Choose…</button></div>
+<label class="field"><span class="field-label">Show hidden files by default</span><input type="checkbox" checked="checked"></label>
+<div class="field"><span class="field-label">Row height</span>
+<div role="radiogroup" aria-label="Row height" style="display: flex; background: #E4E4E8; border-radius: 6px; padding: 2px; gap: 2px; font-size: 12px">
+<button role="radio" aria-checked="false" style="height: 22px; padding: 0 12px; border: 0; border-radius: 5px; background: transparent">Compact</button>
+<button role="radio" aria-checked="true" style="height: 22px; padding: 0 12px; border: 0; border-radius: 5px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.12); font-weight: 600">Medium</button>
+<button role="radio" aria-checked="false" style="height: 22px; padding: 0 12px; border: 0; border-radius: 5px; background: transparent">Large</button>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="section">Tools</div>
+<div class="group">
+<label class="field"><span class="field-label">Terminal</span><select class="sel"><option>Ghostty</option><option>Terminal</option><option>iTerm2</option><option>Warp</option></select></label>
+<label class="field"><span class="field-label">Editor</span><select class="sel"><option>Visual Studio Code</option><option>Cursor</option><option>Zed</option><option>Xcode</option></select></label>
+</div>
+</section>
+
+<section>
+<div class="section">AI Agents</div>
+<div class="group">
+<div class="field" style="font-size: 11px; font-weight: 600; color: #6B6B70; min-height: 28px"><span style="width: 18px"></span><span style="width: 150px">Name</span><span style="flex: 1">Command</span><span>Default</span></div>
+<div class="field"><span style="width: 18px; color: #9A9AA0" aria-hidden="true">⋮⋮</span><span style="width: 150px">Claude Code</span><span class="mono" style="flex: 1">claude</span><input type="radio" name="default-agent" checked="checked" aria-label="Default agent: Claude Code"></div>
+<div class="field"><span style="width: 18px; color: #9A9AA0" aria-hidden="true">⋮⋮</span><span style="width: 150px">Codex</span><span class="mono" style="flex: 1">codex</span><input type="radio" name="default-agent" aria-label="Default agent: Codex"></div>
+<div class="field"><span style="width: 18px; color: #9A9AA0" aria-hidden="true">⋮⋮</span><span style="width: 150px">Gemini CLI</span><span class="mono" style="flex: 1">gemini</span>
+<span style="font-size: 11px; color: #8A3B00; display: flex; align-items: center; gap: 4px"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M8 2 15 14H1z"></path><path d="M8 6.5v3.5M8 12v.01"></path></svg>Not found in PATH</span>
+<input type="radio" name="default-agent" aria-label="Default agent: Gemini CLI"></div>
+<div class="field" style="gap: 6px; min-height: 32px; background: #FAFAFB">
+<button class="small-btn" aria-label="Add agent" style="width: 24px; padding: 0">+</button>
+<button class="small-btn" aria-label="Remove agent" style="width: 24px; padding: 0">−</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":720,"height":560}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

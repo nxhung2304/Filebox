@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>File table states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#E9E9EC}
+a{color:#0B63CE}a:hover{color:#084C9E}
+button{font:inherit;color:inherit;margin:0}
+.state-label{font-size:12px;font-weight:600;color:#3A3A3E}
+.pane{display:flex;flex-direction:column;height:330px;background:#FFFFFF;border:1px solid #C8C8CE;border-radius:8px;overflow:hidden}
+.crumb{height:32px;flex:none;display:flex;align-items:center;gap:6px;padding:0 14px;background:#F4F4F6;border-bottom:1px solid #DCDCE0;font-size:13px;color:#6B6B70}
+.crumb-last{color:#1D1D1F;font-weight:600}
+.row{display:grid;grid-template-columns:3fr 1.6fr 1fr 1fr;column-gap:12px;align-items:center;height:28px;padding:0 16px;font-size:13px;color:#1D1D1F}
+.row:nth-child(even){background:#F6F6F8}
+.head{height:26px;font-size:11px;font-weight:600;color:#6B6B70;background:#FFFFFF !important;border-bottom:1px solid #DCDCE0}
+.cell-name{display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell-sub{color:#6B6B70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell-size{color:#6B6B70;text-align:right;font-variant-numeric:tabular-nums}
+.icon-folder{color:#2F7BD8;display:flex;flex:none}
+.icon-file{color:#8A8A90;display:flex;flex:none}
+.row-selected{background:#0B63CE !important;color:#FFFFFF}
+.row-selected .cell-sub,.row-selected .cell-size,.row-selected .icon-file{color:#FFFFFF}
+</style>
+</helmet>
+<div style="width: 1200px; height: 780px; box-sizing: border-box; padding: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; row-gap: 32px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; color: #1D1D1F">
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<span class="state-label">Empty folder</span>
+<div class="pane">
+<div class="crumb"><span>~</span><span aria-hidden="true">›</span><span>Projects</span><span aria-hidden="true">›</span><span class="crumb-last">exports</span></div>
+<div class="row head"><span>Name ▾</span><span>Date Modified</span><span style="text-align: right">Size</span><span>Kind</span></div>
+<div style="flex: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #6B6B70">Empty Folder</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<span class="state-label">Loading over 150 ms (old list stays)</span>
+<div class="pane">
+<div class="crumb"><span>~</span><span aria-hidden="true">›</span><span>Projects</span><span aria-hidden="true">›</span><span class="crumb-last">node_modules</span>
+<svg role="img" aria-label="Loading" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round" style="margin-left: 4px"><circle cx="8" cy="8" r="6" stroke="#DCDCE0"></circle><path d="M8 2a6 6 0 0 1 6 6" stroke="#6B6B70"></path></svg>
+</div>
+<div class="row head"><span>Name ▾</span><span>Date Modified</span><span style="text-align: right">Size</span><span>Kind</span></div>
+<div style="flex: 1; overflow: hidden; opacity: 0.55">
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>exports</span><span class="cell-sub">Today 10:02</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>filebox</span><span class="cell-sub">Today 09:40</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>node_modules</span><span class="cell-sub">Today 08:12</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>quarterly-report-final-v3-reviewed-by-legal-and-finance-team.pdf</span><span class="cell-sub">Oct 9</span><span class="cell-size">12.4 MB</span><span class="cell-sub">PDF Document</span></div>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<span class="state-label">No permission</span>
+<div class="pane">
+<div class="crumb"><span>~</span><span aria-hidden="true">›</span><span>Library</span><span aria-hidden="true">›</span><span class="crumb-last">Mail</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center">
+<svg width="28" height="28" viewBox="0 0 16 16" fill="none" stroke="#6B6B70" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"></rect><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"></path></svg>
+<span style="font-size: 13px; font-weight: 600">You don't have permission to access this folder</span>
+<span style="font-size: 12px; color: #6B6B70; max-width: 340px">Give Filebox Full Disk Access in System Settings, then reopen this folder.</span>
+<button style="height: 30px; padding: 0 12px; border-radius: 6px; border: 1px solid #0B63CE; background: #0B63CE; color: #FFFFFF; font-size: 13px; font-weight: 600">Open Full Disk Access Settings</button>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<span class="state-label">Rename in place (F2 / Enter)</span>
+<div class="pane">
+<div class="crumb"><span>~</span><span aria-hidden="true">›</span><span>filebox</span><span aria-hidden="true">›</span><span class="crumb-last">Sources</span></div>
+<div class="row head"><span>Name ▾</span><span>Date Modified</span><span style="text-align: right">Size</span><span>Kind</span></div>
+<div style="flex: 1; overflow: hidden">
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>AppState.swift</span><span class="cell-sub">Today 09:18</span><span class="cell-size">3.1 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>
+<label style="flex: 1; min-width: 0; display: flex; align-items: center; height: 22px; box-sizing: border-box; padding: 0 4px; border: 2px solid #0B63CE; border-radius: 4px; background: #FFFFFF; font-size: 13px">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden">File name</span>
+<span style="background: #B3D4FB">FileBrowserView</span><span>.swift</span>
+</label>
+</span><span class="cell-sub">Today 09:40</span><span class="cell-size">6.8 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>FileItem.swift</span><span class="cell-sub">Oct 14</span><span class="cell-size">1.4 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row" style="box-shadow: inset 0 0 0 1px #0B63CE"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>DirectoryWatcher.swift</span><span class="cell-sub">Today 08:57</span><span class="cell-size">2.2 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row row-selected"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>PreviewPane.swift</span><span class="cell-sub">Yesterday 22:05</span><span class="cell-size">4.0 KB</span><span class="cell-sub">Swift</span></div>
+</div>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":780}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Filebox main window</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#D9D9DE}
+a{color:#0B63CE}a:hover{color:#084C9E}
+button{font:inherit;color:inherit;margin:0}
+.side-row{display:flex;align-items:center;gap:8px;height:26px;padding:0 8px;border-radius:6px;font-size:13px;color:#1D1D1F}
+.side-icon{color:#0B63CE;display:flex}
+.tool-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;border-radius:6px;color:#3A3A3E;padding:0}
+.row{display:grid;grid-template-columns:3fr 1.6fr 1fr 1fr;column-gap:12px;align-items:center;height:28px;padding:0 16px;font-size:13px;color:#1D1D1F}
+.row:nth-child(even){background:#F6F6F8}
+.cell-name{display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell-sub{color:#6B6B70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell-size{color:#6B6B70;text-align:right;font-variant-numeric:tabular-nums}
+.icon-folder{color:#2F7BD8;display:flex;flex:none}
+.icon-file{color:#8A8A90;display:flex;flex:none}
+.hidden-file{color:#6B6B70}
+.row-selected{background:#0B63CE !important;color:#FFFFFF}
+.row-selected .cell-sub,.row-selected .cell-size,.row-selected .icon-file{color:#FFFFFF}
+.btn{height:30px;padding:0 12px;border-radius:6px;font-size:13px;display:inline-flex;align-items:center;gap:6px;cursor:default}
+.btn-secondary{background:#FFFFFF;border:1px solid #DCDCE0;color:#1D1D1F}
+.kw{color:#A0279E}.ty{color:#1F5F99}.st{color:#B0361A}.nu{color:#1C00CF}.cm{color:#6B6B70;font-style:italic}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; color: #1D1D1F; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; font-size: 13px; overflow: hidden; border-radius: 10px; border: 1px solid #C8C8CE">
+
+<header style="height: 48px; flex: none; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: #F4F4F6; border-bottom: 1px solid #DCDCE0">
+<div style="display: flex; gap: 8px; width: 60px" aria-hidden="true">
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #FF5F57"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #FEBC2E"></span>
+<span style="width: 12px; height: 12px; border-radius: 50%; background: #28C840"></span>
+</div>
+<div style="display: flex; gap: 2px; margin-left: 96px">
+<button class="tool-btn" aria-label="Back"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5"></path></svg></button>
+<button class="tool-btn" aria-label="Forward" disabled="disabled" style="color: #B8B8BE"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"></path></svg></button>
+</div>
+<nav aria-label="Path" style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6B6B70; flex: 1; min-width: 0">
+<span>~</span><span aria-hidden="true">›</span>
+<span>Projects</span><span aria-hidden="true">›</span>
+<span>filebox</span><span aria-hidden="true">›</span>
+<span style="color: #1D1D1F; font-weight: 600">Sources</span>
+</nav>
+<div role="group" aria-label="View style" style="display: flex; background: #E4E4E8; border-radius: 6px; padding: 2px; gap: 2px">
+<button class="tool-btn" aria-label="List" aria-pressed="true" style="width: 30px; height: 24px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.12)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 4.5h10M3 8h10M3 11.5h10"></path></svg></button>
+<button class="tool-btn" aria-label="Columns" style="width: 30px; height: 24px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"></rect><path d="M6 2.5v11M10.5 2.5v11"></path></svg></button>
+<button class="tool-btn" aria-label="Icons" style="width: 30px; height: 24px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"></rect><rect x="9" y="2" width="5" height="5" rx="1"></rect><rect x="2" y="9" width="5" height="5" rx="1"></rect><rect x="9" y="9" width="5" height="5" rx="1"></rect></svg></button>
+</div>
+<button class="tool-btn" aria-label="Toggle dual pane"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"></rect><path d="M8 2.5v11"></path></svg></button>
+<label style="width: 260px; height: 28px; box-sizing: border-box; display: flex; align-items: center; gap: 6px; padding: 0 8px; background: #FFFFFF; border: 1px solid #DCDCE0; border-radius: 7px; color: #6B6B70">
+<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg>
+<input type="search" aria-label="Search" placeholder="Search in Sources" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 13px; color: #1D1D1F">
+<span style="font-family: 'SF Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #6B6B70">⌘K</span>
+</label>
+</header>
+
+<div style="flex: 1; min-height: 0; display: flex">
+
+<aside aria-label="Sidebar" style="width: 220px; flex: none; box-sizing: border-box; padding: 12px 10px; background: #F4F4F6; border-right: 1px solid #DCDCE0; display: flex; flex-direction: column; gap: 1px; overflow: hidden">
+<div style="font-size: 11px; font-weight: 600; color: #6B6B70; padding: 4px 8px 6px">Favorites</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5"></circle><path d="M8 4.5V8l2.5 1.5"></path></svg></span>Recents</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Desktop</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Downloads</div>
+<div class="side-row"><span class="side-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Documents</div>
+
+<div class="side-row" style="margin-top: 6px; font-size: 12px; font-weight: 600">
+<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#6B6B70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate(90deg)"><path d="M6 3.5 10.5 8 6 12.5"></path></svg>
+<span style="width: 8px; height: 8px; border-radius: 50%; background: #2F6FB0"></span>
+<span style="flex: 1">Dev</span>
+<span style="color: #6B6B70; font-weight: 400">3</span>
+<svg width="10" height="14" viewBox="0 0 10 14" fill="#9A9AA0" aria-hidden="true"><circle cx="3" cy="3" r="1.1"></circle><circle cx="7" cy="3" r="1.1"></circle><circle cx="3" cy="7" r="1.1"></circle><circle cx="7" cy="7" r="1.1"></circle><circle cx="3" cy="11" r="1.1"></circle><circle cx="7" cy="11" r="1.1"></circle></svg>
+</div>
+<div class="side-row" style="padding-left: 18px; background: #E2E2E7">
+<span style="color: #2F6FB0; display: flex"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>
+<span style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">filebox</span>
+<button aria-label="Open Claude Code here (⌘⇧A)" title="Open Claude Code here (⌘⇧A)" style="width: 26px; height: 24px; border: 1px solid #DCDCE0; background: #FFFFFF; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 0; color: #1D1D1F"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5l3 3-3 3M8 11.5h5"></path></svg></button>
+</div>
+<div class="side-row" style="padding-left: 18px">
+<span style="color: #2F6FB0; display: flex"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>
+<span>blog</span>
+</div>
+<div class="side-row" style="padding-left: 18px">
+<span style="color: #2F6FB0; display: flex"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>
+<span>dotfiles</span>
+</div>
+
+<div class="side-row" style="font-size: 12px; font-weight: 600">
+<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#6B6B70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"></path></svg>
+<span style="width: 8px; height: 8px; border-radius: 50%; background: #C2570C"></span>
+<span style="flex: 1">Clients</span>
+<span style="color: #6B6B70; font-weight: 400">2</span>
+</div>
+<div class="side-row" style="font-size: 12px; font-weight: 600">
+<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#6B6B70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"></path></svg>
+<span style="width: 8px; height: 8px; border-radius: 50%; background: #7A3FC2"></span>
+<span style="flex: 1">Personal</span>
+<span style="color: #6B6B70; font-weight: 400">2</span>
+</div>
+<button class="side-row" style="border: 0; background: transparent; font-size: 12px; color: #6B6B70; text-align: left">
+<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg>New Group
+</button>
+
+<div style="font-size: 11px; font-weight: 600; color: #6B6B70; padding: 14px 8px 6px">Locations</div>
+<div class="side-row">
+<span class="side-icon" style="color: #6B6B70"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="1.5" y="4.5" width="13" height="7" rx="1.5"></rect><circle cx="12" cy="8" r="0.7" fill="currentColor"></circle></svg></span>
+<span style="flex: 1; white-space: nowrap">Macintosh HD</span>
+<span style="font-size: 11px; color: #6B6B70; white-space: nowrap">184 GB available</span>
+</div>
+<div class="side-row">
+<span class="side-icon" style="color: #6B6B70"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5h7.25a2.75 2.75 0 0 0 .4-5.47A4 4 0 0 0 4.4 7.1a2.75 2.75 0 0 0 .1 5.4z"></path></svg></span>
+<span>iCloud Drive</span>
+</div>
+</aside>
+
+<main style="flex: 1; min-width: 0; display: flex; flex-direction: column; background: #FFFFFF">
+<div role="tablist" aria-label="Tabs" style="height: 34px; flex: none; display: flex; background: #ECECEF; border-bottom: 1px solid #DCDCE0">
+<div role="tab" aria-selected="true" style="flex: 0 1 200px; min-width: 0; display: flex; align-items: center; padding: 0 14px; background: #FFFFFF; font-weight: 600; border-right: 1px solid #DCDCE0; margin-bottom: -1px">Sources</div>
+<div role="tab" aria-selected="false" style="flex: 0 1 200px; min-width: 0; display: flex; align-items: center; padding: 0 14px; color: #6B6B70; border-right: 1px solid #DCDCE0">Downloads</div>
+<div role="tab" aria-selected="false" style="flex: 0 1 200px; min-width: 0; display: flex; align-items: center; padding: 0 14px; color: #6B6B70; border-right: 1px solid #DCDCE0">blog / posts</div>
+<button class="tool-btn" aria-label="New tab" style="margin: 3px 6px; color: #6B6B70"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg></button>
+</div>
+
+<div class="row" style="height: 26px; font-size: 11px; font-weight: 600; color: #6B6B70; background: #FFFFFF; border-bottom: 1px solid #DCDCE0">
+<span>Name ▾</span><span>Date Modified</span><span style="text-align: right">Size</span><span>Kind</span>
+</div>
+<div style="flex: 1; min-height: 0; overflow: hidden">
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Views</span><span class="cell-sub">Today 09:40</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Models</span><span class="cell-sub">Yesterday 21:12</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row"><span class="cell-name"><span class="icon-folder"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>Services</span><span class="cell-sub">Today 09:31</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row hidden-file"><span class="cell-name"><span class="icon-folder" style="opacity: 0.5"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.2l1.5 1.5h6.3a1 1 0 0 1 1 1v6.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"></path></svg></span>.build</span><span class="cell-sub">Today 09:44</span><span class="cell-size">—</span><span class="cell-sub">Folder</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>AppState.swift</span><span class="cell-sub">Today 09:18</span><span class="cell-size">3.1 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row row-selected"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>FileBrowserView.swift</span><span class="cell-sub">Today 09:40</span><span class="cell-size">6.8 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>FileItem.swift</span><span class="cell-sub">Oct 14</span><span class="cell-size">1.4 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>DirectoryWatcher.swift</span><span class="cell-sub">Today 08:57</span><span class="cell-size">2.2 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>KeyboardShortcuts.swift</span><span class="cell-sub">Oct 15</span><span class="cell-size">1.9 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>PreviewPane.swift</span><span class="cell-sub">Yesterday 22:05</span><span class="cell-size">4.0 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row"><span class="cell-name"><span class="icon-file"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>SearchEngine.swift</span><span class="cell-sub">Oct 12</span><span class="cell-size">5.3 KB</span><span class="cell-sub">Swift</span></div>
+<div class="row hidden-file"><span class="cell-name"><span class="icon-file" style="opacity: 0.6"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>.gitignore</span><span class="cell-sub">Oct 2</span><span class="cell-size">96 bytes</span><span class="cell-sub">Plain Text</span></div>
+</div>
+</main>
+
+<aside aria-label="Preview" style="width: 320px; flex: none; box-sizing: border-box; padding: 16px; background: #FAFAFB; border-left: 1px solid #DCDCE0; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="color: #8A8A90; display: flex"><svg width="32" height="32" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5l3.5 3.5v9a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5z"></path><path d="M9 1.5V5h3.5"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">FileBrowserView.swift</span>
+<span style="font-size: 11px; color: #6B6B70">Swift · 6.8 KB</span>
+</div>
+</div>
+<pre style="margin: 0; max-height: 340px; overflow: hidden; box-sizing: border-box; padding: 12px; background: #FFFFFF; border: 1px solid #DCDCE0; border-radius: 8px; font-family: 'SF Mono', ui-monospace, Menlo, monospace; font-size: 11.5px; line-height: 1.55; color: #1D1D1F; white-space: pre"><span class="kw">import</span> SwiftUI
+
+<span class="cm">// Main list for one tab</span>
+<span class="kw">struct</span> <span class="ty">FileBrowserView</span>: <span class="ty">View</span> {
+    <span class="kw">@State private var</span> model: <span class="ty">BrowserModel</span>
+    <span class="kw">@State private var</span> selection = <span class="ty">Set</span>&lt;<span class="ty">FileItem</span>.<span class="ty">ID</span>&gt;()
+    <span class="kw">let</span> rowHeight: <span class="ty">CGFloat</span> = <span class="nu">28</span>
+
+    <span class="kw">var</span> body: <span class="kw">some</span> <span class="ty">View</span> {
+        <span class="ty">FileTableView</span>(items: model.items,
+                      selection: $selection)
+            .onKeyPress(.space) {
+                model.quickLook(selection)
+                <span class="kw">return</span> .handled
+            }
+            .navigationTitle(<span class="st">"Sources"</span>)
+    }
+}</pre>
+<dl style="margin: 0; display: grid; grid-template-columns: 84px minmax(0, 1fr); row-gap: 8px; column-gap: 8px; font-size: 12px">
+<dt style="color: #6B6B70">Modified</dt><dd style="margin: 0">Today 09:40</dd>
+<dt style="color: #6B6B70">Path</dt><dd style="margin: 0; font-family: 'SF Mono', ui-monospace, Menlo, monospace; font-size: 11px; word-break: break-all">~/Projects/filebox/Sources/FileBrowserView.swift</dd>
+</dl>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button class="btn" style="background: #0B63CE; color: #FFFFFF; border: 1px solid #0B63CE; font-weight: 600">Open in Editor</button>
+<button class="btn btn-secondary">Copy Path</button>
+<button class="btn btn-secondary">Open in Terminal</button>
+<div style="display: inline-flex; border: 1px solid #DCDCE0; border-radius: 6px; background: #FFFFFF; overflow: hidden">
+<button class="btn" style="border: 0; background: transparent; border-radius: 0"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5l3 3-3 3M8 11.5h5"></path></svg>Claude Code</button>
+<button class="btn" aria-label="Choose agent" style="border: 0; border-left: 1px solid #DCDCE0; background: transparent; border-radius: 0; padding: 0 8px"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"></path></svg></button>
+</div>
+</div>
+</aside>
+</div>
+
+<footer style="height: 24px; flex: none; display: flex; align-items: center; gap: 18px; padding: 0 16px; background: #F4F4F6; border-top: 1px solid #DCDCE0; font-size: 11px; color: #6B6B70">
+<span>12 items, 1 selected</span>
+<span>Hidden files: shown (⌘⇧.)</span>
+<span style="margin-left: auto">184 GB available</span>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
